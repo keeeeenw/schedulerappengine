@@ -88,7 +88,25 @@
             params = getURLParameters($(this).attr("href"));
             console.log(params);
             $.getJSON('_find_section', params , function(data) {
-
+				if (data.sections.length ==1){
+					section = data.sections[0];
+					section.days.split('').forEach(function(letter){
+						day = 24;
+						if (letter=="T"){day+=1}
+						else if (letter=="W"){day+=2}
+						else if (letter=="R"){day+=3}
+						else if (letter=="F"){day+=4}
+						$('#calendar').fullCalendar(
+							'renderEvent',
+								{
+									id : params["depart"]+"-"+params["course"],
+									title : params["depart"]+"-"+params["course"],
+									start : day+" Feb 2014 "+section.start_time[0]+":"+section.start_time[1]+" GMT",
+									end : day+" Feb 2014 "+section.end_time[0]+":"+section.end_time[1]+" GMT"
+								}, true
+						);
+					});
+				}
             });
             e.preventDefault();
             /*
