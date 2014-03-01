@@ -14,13 +14,15 @@
 		var y = date.getFullYear();
 		
 		$('#calendar').fullCalendar({
-			editable: true,
+			editable: false,
+			disableResizing:true,
             weekends: false, //will hide weekend
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 			},
 			defaultView: 'agendaWeek',
+			
 			events: [
 				{
 					title: 'All Day Event',
@@ -55,8 +57,12 @@
 					end: new Date(y, m, d+1, 22, 30),
 					allDay: false
 				},
-			]
+			],
+			eventClick: function(calEvent, jsEvent, view){
+				$('#calendar').fullCalendar('removeEvents',calEvent.id);
+			}
 		});
+
 
         $("#depart_selector").change(function(){
             //hide all first
