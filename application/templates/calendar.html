@@ -171,7 +171,9 @@
                         {% for c in d.courses%}
                         <tr class="course {{d.prefix}}">
                             <td> 
-                                {{d.prefix}} {{c.number}}
+                                <a href="#">
+                                    {{d.prefix}} {{c.number}}
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}

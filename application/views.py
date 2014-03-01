@@ -19,14 +19,16 @@ from application import app
 from decorators import login_required, admin_required
 #from forms import ExampleForm
 #from models import ExampleModel
+from model import *
 
 
 # Flask-Cache (configured to use App Engine Memcache API)
 cache = Cache(app)
 
 def home():
-    return render_template('calendar.html')
-
+    d = Department.all()
+    model = {'deps':d}
+    return render_template('calendar.html', model = model)
 
 def say_hello(username):
     """Contrived example to demonstrate Flask's url routing capabilities"""
