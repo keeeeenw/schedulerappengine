@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block style_block %}
-
 {% endblock %}
 
 {% block head_script %}
 
 	$(document).ready(function() {
 	
+        /* Calendar Handling */
 		var date = new Date();
 		var d = date.getDate();
 		var m = date.getMonth();
@@ -57,6 +57,20 @@
 				},
 			]
 		});
+
+        $("#depart_selector").change(function(){
+            //hide all first
+            $(".course").css("display","none");
+
+            //display the selected one
+            var depart = this.options[this.selectedIndex].value;
+            $("."+depart).css('display', 'inline');
+        });
+
+        $("#depart_selector").change(function(){
+        });
+
+
 		
 	});
 
@@ -103,7 +117,16 @@
     <tr>
         <td>
             <table class="courseSelect">
-                <tr><th><select name="select an area of study">
+                <tr><th><select id="depart_selector" name="select an area of study">
+                    <option value="Department" selected="selected"> 
+                    Select Department
+                    </option>
+                    {% if 'deps' in model %}
+                        {% for d in model['deps'] %}
+                            <option value="{{d.prefix}}">{{d.name}}</option>
+                        {% endfor %}
+                    {% endif %}
+                    <!--
                     <option value="AMST">American Studies</option>
                     <option value="ANTH">Anthropology</option>
                     <option value="ART">Art and Art History</option>
@@ -141,7 +164,20 @@
                     <option value="SOCI">Sociology</option>
                     <option value="THDA">Theatre and Dance</option>
                     <option value="WGSS">Women's, Gender, and Sexuality Studies</option>
+                    -->
                 </select></th></tr>
+                {% if 'deps' in model %}
+                    {% for d in model['deps'] %}
+                        {% for c in d.courses%}
+                        <tr class="course {{d.prefix}}">
+                            <td> 
+                                {{d.prefix}} {{c.number}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                <!--
                 <tr class="course"><td>Name
                     <br>Name Name</td></tr>
                 <tr class="course"><td>Name
@@ -170,6 +206,7 @@
                     <br>Name Name</td></tr>
                 <tr class="course"><td>Name
                     <br>Name Name</td></tr>
+                -->
             </table>
         </td>
         <td><div id="calendar"></div></td>
