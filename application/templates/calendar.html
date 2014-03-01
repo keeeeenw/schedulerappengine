@@ -22,46 +22,26 @@
 				center: 'title',
 			},
 			defaultView: 'agendaWeek',
-			
-			events: [
-				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 18, 45),
-					allDay: false
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false
-				},
-			],
 			eventClick: function(calEvent, jsEvent, view){
 				$('#calendar').fullCalendar('removeEvents',calEvent.id);
 			}
+            //eventMouseover: function(event, jsEvent){
+            //    console.log(event);
+            //    if(event.className[1] == 'primary'){
+            //        var className = "."+event.id+", "+'.alternative';
+            //        console.log(className);
+            //        $(className).css("display","inline");
+            //    }
+            //},
+            //eventMouseout: function(event, jsEvent){
+            //    $(".alternative").css("display", "none");
+            //}
 		});
+
+        $("#calendar").fullCalendar('addEventSource',{
+            url:'https://www.google.com/calendar/feeds/b3opfen3kvhkgl2kjf4e06m768%40group.calendar.google.com/public/basic',
+            color: '#A8C4E5'
+        });
 
 
         $("#depart_selector").change(function(){
@@ -90,64 +70,64 @@
             return result;
         }
 
-        addEvent = function(section){
-            /*
-             *
-             *	title: 'Lunch',
-             *  start: new Date(y, m, d, 12, 0),
-             *  end: new Date(y, m, d, 14, 0),
-             */
-            course = section.course;
-            start_time = section.start_time;
-            end_time = section.end_time;
-        
-
-        }
-
-        addEvents = function(sections){
-            sections.forEach(function(s){
-                addEvent(s);
-            });
-        }
+        var colors = ['#f2b06e', '#f5a3d6', '#b2a3f5', '#A8C4E5']; 
+        var cmax = colors.length;
+        var index = 0;
 
         $(".addEvent").on("click", function(e){
             params = getURLParameters($(this).attr("href"));
             console.log(params);
             $.getJSON('_find_section', params , function(data) {
 				if (data.sections.length ==1){
-					section = data.sections[0];
-					section.days.split('').forEach(function(letter){
-						day = 24;
-						if (letter=="T"){day+=1}
-						else if (letter=="W"){day+=2}
-						else if (letter=="R"){day+=3}
-						else if (letter=="F"){day+=4}
-						$('#calendar').fullCalendar(
-							'renderEvent',
-								{
-									id : params["depart"]+"-"+params["course"],
-									title : params["depart"]+"-"+params["course"],
-									start : day+" Feb 2014 "+section.start_time[0]+":"+section.start_time[1]+" GMT",
-									end : day+" Feb 2014 "+section.end_time[0]+":"+section.end_time[1]+" GMT"
-								}, true
-						);
-					});
-				}
+					var section = data.sections[0];
+                    var sectionColor = colors[(index++) % cmax];
+                    addSection(section,sectionColor,true);
+
+				} else { //multiple sections are found
+                    for(var i=0; i<data.sections.length; i++){
+                        var section = data.sections[i];
+                        var sectionColor = colors[(index++) % cmax];
+                        if(i==0)
+                            addSection(section,sectionColor,true);
+                        else
+                            addSection(section,sectionColor,false);
+
+                    }
+                }
             });
             e.preventDefault();
-            /*
-            $.ajax({
-                url: "/ajax/findSection",
-                data: params,
-                dataType: "json"
-            }).done(function(data){
-
-            });
-            */
         });
 
+        addSection = function(section, color, isPrimary){ 
+            section.days.split('').forEach(function(letter){
+                var day = 24;
+                if (letter=="T"){day+=1}
+                else if (letter=="W"){day+=2}
+                else if (letter=="R"){day+=3}
+                else if (letter=="F"){day+=4}
+                $('#calendar').fullCalendar(
+                    'renderEvent',
+                        {
+                            id : params["depart"]+"-"+params["course"],
+                            title : params["depart"]+"-"+params["course"],
+                            start : day+" Feb 2014 "+section.start_time[0]+":"+section.start_time[1]+" GMT",
+                            end : day+" Feb 2014 "+section.end_time[0]+":"+section.end_time[1]+" GMT",
+                            color: color,
+                            className: params["depart"]+"-"+params["course"] + " "+ ((isPrimary) ? "primary" : "alternative"),
+                            //className: ((isPrimary) ? "primary" : "alternative"),
+                        }, true
+                );
+            });
+        }
 
-		
+        // hover tooltip
+        $(".addEvent").hover(function(){
+            var className = $(this).attr("id");
+            $("."+className).css("display", "inline");
+        }, function(){
+            var className = $(this).attr("id");
+            $("."+className).css("display", "none");
+        });
 	});
 
 {% endblock %}
@@ -162,34 +142,39 @@
                 <tr>
                     <th class="requirement">requirements: </th>
                 </tr>
-                <tr class="requireRow">
-                    <td>Humanities/Fine Arts 0 1 2 3 4</td>
-                    <td>Writing</td>
-                    <td>Internationalism</td>
-                    <td>complete</td>
+                <tr>
+                    <td class="require"><span style="color:#000000">Humanities/</span>Fine Arts</td>
+                    <td class="require">0 1 2 <span style="color:#000000">3</span> 4</td>
+                    <td class="require"><span style="color:#000000">Writing</span></td>
+                    <td class="require">Internationalism</td>
+                    <td class="require key"><span style="color: #000000; font-size: 25px;vertical-align: text-top">&#8226;</span>complete</td>
                 </tr>
-                <tr class="requireRow">
-                    <td>Social Science 0 1 2</td>
-                    <td>Multiculturalism</td>
-                    <td>Q 0 1 2 3</td>
-                    <td>incomplete</td>
+                <tr>
+                    <td class="require gened">Social Science</td>
+                    <td class="require">0 1 <span style="color:#000000">2</span></td>
+                    <td class="require"><span style="color:#000000;">Q</span> 0 1 <span style="color:#000000">2</span> 3</td>
+                    <td class="require inprogress">Multiculturalism</td>
+                    <td class="require key"><span style="color: #777777; font-size: 25px;vertical-align: text-top">&#8226;</span> incomplete</td>
                 </tr>
-                <tr class="requireRow">
-                    <td>Natural Science/Math 0 1 2</td>
-                    <td></td>
-                    <td></td>
-                    <td>in progress</td>
+                <tr>
+                    <td class="require gened">Natural Science/Math</td>
+                    <td class="require">0 <span style="color:#000000">1</span> 2</td>
+                    <td class="require"></td>
+                    <td class="require"></td>
+                    <td class="require key"><span style="color: #d35e5e; font-size: 25px;vertical-align: text-top">&#8226;</span> in progress</td>
                 </tr>
             </table>
         </td>
-        <td style="width: 100px"></td>
-        <td>
+        <td style="width: 45%"></td>
+        <td style="height: 50%;vertical-align: text-bottom">
             <p class="major" style="line-height: 100%"><b>major:</b> ECON, COMP</p>
             <p class="minorLang" style="line-height: 20%"><b>minor:</b> WGSS</p>
             <p class="minorLang" style="line-height: 20%"><b>language:</b> arabic</p>
         </td>
     </table>
-<table>
+</div>
+<div id="workarea">
+<table id="worktable">
     <tr>
         <td>
             <table class="courseSelect">
@@ -202,90 +187,31 @@
                             <option value="{{d.prefix}}">{{d.name}}</option>
                         {% endfor %}
                     {% endif %}
-                    <!--
-                    <option value="AMST">American Studies</option>
-                    <option value="ANTH">Anthropology</option>
-                    <option value="ART">Art and Art History</option>
-                    <option value="ASIA">Asian Languages and Cultures</option>
-                    <option value="BIOL">Biology</option>
-                    <option value="CHEM">Chemistry</option>
-                    <option value="CHIN">Chinese</option>
-                    <option value="CLAS">Classics</option>
-                    <option value="COMP">Computer Science</option>
-                    <option value="ECON">Economics</option>
-                    <option value="EDUC">Educational Studies</option>
-                    <option value="ENGL">English</option>
-                    <option value="ENVI">Environmental Studies</option>
-                    <option value="FREN">French and Francophone Studies</option>
-                    <option value="GEOG">Geography</option>
-                    <option value="GEOL">Geology</option>
-                    <option value="GERM">German Studies</option>
-                    <option value="HISP">Hispanic and Latin American Studies</option>
-                    <option value="HIST">History</option>
-                    <option value="INTD">Interdisciplinary Studies</option>
-                    <option value="JAPA">Japanese</option>
-                    <option value="LATI">Latin American Studies</option>
-                    <option value="LING">Linguistics</option>
-                    <option value="MATH">Mathematics</option>
-                    <option value="MCST">Media and Cultural Studies</option>
-                    <option value="MUSI">Music</option>
-                    <option value="NEUR">Neuroscience Studies</option>
-                    <option value="PHIL">Philosophy</option>
-                    <option value="PE">Physical Education</option>
-                    <option value="PHYS">Physics and Astronomy</option>
-                    <option value="POLI">Political Science</option>
-                    <option value="PSYC">Psychology</option>
-                    <option value="RELI">Religious Studies</option>
-                    <option value="RUSS">Russian</option>
-                    <option value="SOCI">Sociology</option>
-                    <option value="THDA">Theatre and Dance</option>
-                    <option value="WGSS">Women's, Gender, and Sexuality Studies</option>
-                    -->
                 </select></th></tr>
                 {% if 'deps' in model %}
                     {% for d in model['deps'] %}
                         {% for c in d.courses%}
                         <tr class="course {{d.prefix}}">
                             <td> 
-                                <a class="addEvent" 
-                                href="?depart={{d.prefix}}&course={{c.number}}">
-                                {{d.prefix}} {{c.number}}
+                                <span>
+                                    <a class="addEvent" 
+                                    href="?depart={{d.prefix}}&course={{c.number}}"
+                                    id="{{d.prefix}}{{c.number}}">
+                                    {{d.prefix}} {{c.number}}
+                                    <br />
+                                    {{c.name if c.name|length <= 20 else c.name[0:17]+"..."}}
                                 </a>
+                                </span>
+                                <span class="tooltip {{d.prefix}}{{c.number}}">
+                                    {{d.prefix}} {{c.number}} <br />
+                                    {{c.name}} <br />
+                                    {{c.description}} 
+                                </span>
                             </td>
                         </tr>
                         {% endfor %}
                     {% endfor %}
                 {% endif %}
-                <!--
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                <tr class="course"><td>Name
-                    <br>Name Name</td></tr>
-                -->
             </table>
         </td>
         <td><div id="calendar"></div></td>
