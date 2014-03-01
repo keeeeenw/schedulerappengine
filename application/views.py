@@ -32,9 +32,28 @@ def home():
 
 @app.route('/_find_section')
 def findSection():
-    depart = request.args.get('depart')
-    course = request.args.get('course')
-    return jsonify(result=depart+course)
+    departPrefix = request.args.get('depart')
+    courseNum = request.args.get('course')
+    q = Department.all()
+    q.filter("prefix =",departPrefix)
+    for dept in q.run(limit=1):
+        for course in dept.courses:
+            if course.number==courseNum:
+                response = {"sections":[]}
+                for section in course.sections:
+                    response["sections"].append({
+                        "number":section.number,
+                        "year":section.year,
+                        "instructor":section.instructor,
+                        "days":section.days,
+						"start_time":(section.start_time.hour,section.start_time.minute),
+                        "end_time":(section.end_time.hour,section.end_time.minute),
+                        "room":section.room,
+                        "available_spots":section.available_spots,
+                        "total_spots":section.total_spots,
+                        "description":section.description
+                    })
+                return jsonify(response)
     
 
 def say_hello(username):
