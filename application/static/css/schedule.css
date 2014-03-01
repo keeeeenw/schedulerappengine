@@ -1,19 +1,21 @@
 body{
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    /*font-family: Geneva, Tahoma, Verdana, sans-serif;*/
+    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+    white-space:nowrap;
 }
 
 #student {
-    font-size: 75px;
+    font-size: 65px;
     font-weight: bold;
 }
 
 .major{
-    font-size: 25px;
+    font-size: 30px;
     text-align: right;
 }
 
 .minorLang{
-    font-size: 15px;
+    font-size: 20px;
     text-align: right;
 }
 
@@ -26,12 +28,26 @@ table.requirement{
     border-style: solid;
     border-width:1px;
     border-color: #777777;
-    padding: 8px;
+    padding: 10px;
     line-height: 75%;
 }
 
-tr.requireRow{
-    padding: 30px;
+td.require{
+    color: #777777;
+    padding: 5px;
+}
+
+td.require.inprogress{
+    color: #d35e5e;
+    padding: 5px;
+}
+
+td.require.key{
+    color:#000000;
+}
+
+td.require.gened{
+    color:#000000;
 }
 
 table.courseSelect{
@@ -46,10 +62,55 @@ table.courseSelect{
 }
 
 .course{
+    display: none;
+}
+.course td{
     background-color: #ffffff;
     border-color: #777777;
     border-width:1px;
     text-align: center;
     font-size: 15px;
-    display: none;
+    padding: 10px 5px;
+    width:150px;
 }
+
+.course a{
+    text-decoration: none;
+    color: #000000;
+}
+
+.alternative{
+    opacity:0.3;
+}
+
+span.tooltip {
+      position: absolute;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 14px;
+      text-align: left;
+      color: #000000;
+      background-color: #e2e2e2;
+      border: 2px solid #777777;
+      border-radius: 3px;
+      /*text-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 1px;*/
+      /*box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 2px 0px;*/
+      display:none;
+      white-space:normal;
+      z-index:200000;
+}
+
+/*
+span.tooltip:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-width: 10px;
+      border-style: solid;
+      border-color: #FFFFFF transparent transparent transparent;
+      top: 44px;
+      left: 50px;
+}
+*/
+

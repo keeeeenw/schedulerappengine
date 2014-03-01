@@ -68,7 +68,7 @@ if(Department.all().count() == 0):
     cs = Department(prefix="COMP",name="Computer Science")
     cs.put()
     cs124 = Course(department=cs,number="124",name="Object-Oriented Programming and Data Structure", description="""
-This course introduces the principles of software design and development using the object-oriented paradigm (OOP) and the Java programming language. Students will learn to use data structures such as lists, trees and hash tables and they will compare the efficiency of these data structures for a particular application. Students will learn to decompose a project using OOP principles. They will work with integrated development environments (IDEs) and version control systems. Students will practice their skills by creating applications in areas such as graphics, games, simulations, and natural language processing. There is a required 1.5 hour laboratory section associated with this course.
+This course introduces the principles of software design and development using the object-oriented paradigm (OOP) and the Java programming language. Students will learn to use data structures such as lists, trees and hash tables and they will compare the efficiency of these data structures for a particular application. Students will learn to decompose a project using OOP principles. They will work with integrated development environments (IDEs) and version control systems. Students will practice their skills by creating applications in areas such as graphics, games, simulations, and natural language processing. There is a required 1.5 hour laboratory section associated with this course. Textbook: Art & Science of Java, ISBN: 9780321486127
 """)
     cs124.put()
     cs124_01_start = datetime.time(10,50,0,0)
@@ -100,7 +100,7 @@ This course introduces the principles of software design and development using t
 
     cs240 = Course(department=cs,number="240",name="Computer Systems Organization",
 description = """
-This course familiarizes the student with the internal design and organization of computers. Topics include number systems, internal data representations, logic design, microarchitectures, the functional units of a computer system, memory, processor, and input/output structures, instruction sets and assembly language, addressing techniques, system software, and non-traditional computer architectures.
+This course familiarizes the student with the internal design and organization of computers. Topics include number systems, internal data representations, logic design, microarchitectures, the functional units of a computer system, memory, processor, and input/output structures, instruction sets and assembly language, addressing techniques, system software, and non-traditional computer architectures. Textbook: Computer Systems: A Programmer's Perspective (2nd Edition) ISBN: 0136108040
 """)
     cs240.put()
     cs240_01 = Section(
@@ -117,7 +117,7 @@ This course familiarizes the student with the internal design and organization o
     cs240_01.put()
 
     cs325 = Course(department=cs,number="325",name="Compilers, Interpreters, and Programming Languages",description = """
-This course will examine the techniques that underlie compiler and interpreter creation, including lexical analysis, parsing, and compiler generators. These tools will serve as a framework for examining programming language design issues across a range of language types (procedural, object-oriented, modern programming languages with an eye to understanding the underlying philosophy of each language, and how it influences and is influenced by the needs of a compiler or interpreter for the language. "Back-end" issues, including intermediate representations, code generation, and optimization will be included as they relate to specific programming languages.
+This course will examine the techniques that underlie compiler and interpreter creation, including lexical analysis, parsing, and compiler generators. These tools will serve as a framework for examining programming language design issues across a range of language types (procedural, object-oriented, modern programming languages with an eye to understanding the underlying philosophy of each language, and how it influences and is influenced by the needs of a compiler or interpreter for the language. "Back-end" issues, including intermediate representations, code generation, and optimization will be included as they relate to specific programming languages. Textbook: The Art of Computer Programming, Volumes 1-4A Boxed Set ISBN: 0321751043
 """)
     cs325.put()
     cs325.put()
@@ -137,14 +137,14 @@ This course will examine the techniques that underlie compiler and interpreter c
 
     econ = Department(prefix="ECON",name="Economics")
     econ.put()
-    econ119 = Course(department=econ,number="119",name="Principles of Economics")
+    econ119 = Course(department=econ,number="119",name="Principles of Economics", description="A one-semester introduction to the basic tools of micro- and macroeconomic analysis. Microeconomics deals with consumers, firms, markets and income distribution. Macroeconomics deals with national income, employment, inflation and money. Textbook: Principles of Economics ISBN: 0538453052")
     econ119.put()
     econ119_start = datetime.time(9,40,0,0)
     econ119_end = datetime.time(11,10,0,0)
     econ119_01 = Section(
         course=econ119,number="01",
         year="2014",
-        instructor = "Paul Rice",
+        instructor = "Karine S. Moe",
         days = "TR",
         start_time=econ119_start,
         end_time=econ119_end,
