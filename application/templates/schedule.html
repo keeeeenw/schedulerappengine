@@ -1,69 +1,10 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="schedule.css">
+</head>
 
-{% block style_block %}
-
-{% endblock %}
-
-{% block head_script %}
-
-	$(document).ready(function() {
-	
-		var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
-		
-		$('#calendar').fullCalendar({
-			editable: true,
-            weekends: false, //will hide weekend
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-			},
-			defaultView: 'agendaWeek',
-			events: [
-				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 18, 45),
-					allDay: false
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false
-				},
-			]
-		});
-		
-	});
-
-{% endblock %}
-
-{% block content %}
-
+<body>
 <div class="header">
     <p id="student"style="display: inline;">Paul Rice</p>
     <table id="headerInfo">
@@ -172,9 +113,12 @@
                     <br>Name Name</td></tr>
             </table>
         </td>
-        <td><div id="calendar"></div></td>
+        <td><div id="calendar">Ken, your stuff goes here!</div></td>
     </tr>
 </table>
 </div>
 
-{% endblock content %}
+
+
+</body>
+</html>

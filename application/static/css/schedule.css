@@ -1,0 +1,54 @@
+body{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+#student {
+    font-size: 75px;
+    font-weight: bold;
+}
+
+.major{
+    font-size: 25px;
+    text-align: right;
+}
+
+.minorLang{
+    font-size: 15px;
+    text-align: right;
+}
+
+table.headerInfo{
+    width: 100%;
+}
+
+table.requirement{
+    font-size: 15px;
+    border-style: solid;
+    border-width:1px;
+    border-color: #777777;
+    padding: 8px;
+    line-height: 75%;
+}
+
+tr.requireRow{
+    padding: 30px;
+}
+
+table.courseSelect{
+    background-color: #e2e2e2;
+    /*width: 200px;*/
+    /*height: 1000px;*/
+    border-style: solid;
+    border-width:1px;
+    border-color: #777777;
+    border-collapse:separate;
+    padding: 10px;
+}
+
+.course{
+    background-color: #ffffff;
+    border-color: #777777;
+    border-width:1px;
+    text-align: center;
+    font-size: 15px;
+}

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <title>{% block title%}Flask on App Engine{% endblock %}</title>
-    <link href="/static/css/bootstrap-{{ bootstrap_version }}.min.css" rel="stylesheet" />
+    {# <link href="/static/css/bootstrap-{{ bootstrap_version }}.min.css" rel="stylesheet" /> #}
     <link rel="stylesheet" href="/static/css/font-awesome.min.css">
     <style> body { padding-top: 90px; } </style> <!-- Bootstrap -->
     <link href="/static/css/main.css" rel="stylesheet" />
@@ -15,6 +15,8 @@
     {% block ytyle_block %}{# page-specific CSS #}{% endblock %}
     <script src="/static/js/lib/modernizr-{{ modernizer_version }}.min.js"></script>{# Modernizr must be here, above body tag. #}
     <link rel="stylesheet" href="/static/css/fullcalendar.css">
+    <link rel="stylesheet" href="/static/css/schedule.css">
+    <link rel="stylesheet" href="/static/css/calendar.css">
     <script src="/static/js/lib/jquery.min.js"></script>
     <script src="/static/js/lib/moment.min.js"></script>
     <script src="/static/js/lib/fullcalendar.js"></script>
@@ -23,9 +25,11 @@
     </script>
 </head>
 <body>
+    {#
     <div id="header">
-        {% include 'includes/nav.html' %} {# pull in navbar #}
+         {% include 'includes/nav.html' %} pull in navbar
     </div>
+    #}
     <div class="container" id="maincontent">
         {% include 'includes/flash_message.html' %} {# page-level feedback notices #}
         <div id="body_content">
