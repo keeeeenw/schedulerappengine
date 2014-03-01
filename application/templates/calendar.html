@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block style_block %}
+    <style type="text/css">
+        table.table { width: 60%; }
+    </style>
+{% endblock %}
+
+{% block head_script %}
+$(document).ready(function() {
+
+    // page is now ready, initialize the calendar...
+    
+    $('#calendar').fullCalendar({
+        // put your options and callbacks here
+    });
+
+});
+{% endblock %}
+
+{% block content %}
+
+<div id="calendar"></div>
+
+{% endblock content %}
