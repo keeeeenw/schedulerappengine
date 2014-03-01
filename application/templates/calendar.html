@@ -57,6 +57,11 @@
 				},
 			]
 		});
+        
+        $('#calendar').fullCalendar('addEventSource', {
+            url: 'https://www.google.com/calendar/feeds/b3opfen3kvhkgl2kjf4e06m768%40group.calendar.google.com/public/basic',
+            className: 'gcal-event'
+        });
 
         $("#depart_selector").change(function(){
             //hide all first
@@ -70,7 +75,7 @@
         /**
          * http://stackoverflow.com/questions/5073859/jquery-how-to-get-parameters-of-a-url
          */
-        function getURLParameters(url){
+        getURLParameters = function(url){
             var result = {};
             var searchIndex = url.indexOf("?");
             if (searchIndex == -1 ) return result;
@@ -84,23 +89,36 @@
             return result;
         }
 
+        addEvent = function(section){
+            /*
+             *
+             *	title: 'Lunch',
+             *  start: new Date(y, m, d, 12, 0),
+             *  end: new Date(y, m, d, 14, 0),
+             */
+            course = section.course;
+            start_time = section.start_time;
+            end_time = section.end_time;
+        
+
+        }
+
+        addEvents = function(sections){
+            sections.forEach(function(s){
+                addEvent(s);
+            });
+        }
+
         $(".addEvent").on("click", function(e){
             params = getURLParameters($(this).attr("href"));
             console.log(params);
             $.getJSON('_find_section', params , function(data) {
-
+                //addEvents(data);
             });
             e.preventDefault();
-            /*
-            $.ajax({
-                url: "/ajax/findSection",
-                data: params,
-                dataType: "json"
-            }).done(function(data){
-
-            });
-            */
         });
+
+
 
 
 		
