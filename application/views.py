@@ -11,7 +11,7 @@ For example the *say_hello* handler, handling the URL route '/hello/<username>',
 from google.appengine.api import users
 from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
-from flask import request, render_template, flash, url_for, redirect
+from flask import request, render_template, flash, url_for, redirect, jsonify
 
 from flask_cache import Cache
 
@@ -29,6 +29,13 @@ def home():
     d = Department.all()
     model = {'deps':d}
     return render_template('calendar.html', model = model)
+
+@app.route('/_find_section')
+def findSection():
+    depart = request.args.get('depart')
+    course = request.args.get('course')
+    return jsonify(result=depart+course)
+    
 
 def say_hello(username):
     """Contrived example to demonstrate Flask's url routing capabilities"""

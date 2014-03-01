@@ -67,7 +67,39 @@
             $("."+depart).css('display', 'inline');
         });
 
-        $("#depart_selector").change(function(){
+        /**
+         * http://stackoverflow.com/questions/5073859/jquery-how-to-get-parameters-of-a-url
+         */
+        function getURLParameters(url){
+            var result = {};
+            var searchIndex = url.indexOf("?");
+            if (searchIndex == -1 ) return result;
+            var sPageURL = url.substring(searchIndex +1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++)
+            {       
+                var sParameterName = sURLVariables[i].split('=');      
+                result[sParameterName[0]] = sParameterName[1];
+            }
+            return result;
+        }
+
+        $(".addEvent").on("click", function(e){
+            params = getURLParameters($(this).attr("href"));
+            console.log(params);
+            $.getJSON('_find_section', params , function(data) {
+
+            });
+            e.preventDefault();
+            /*
+            $.ajax({
+                url: "/ajax/findSection",
+                data: params,
+                dataType: "json"
+            }).done(function(data){
+
+            });
+            */
         });
 
 
@@ -171,8 +203,9 @@
                         {% for c in d.courses%}
                         <tr class="course {{d.prefix}}">
                             <td> 
-                                <a href="#">
-                                    {{d.prefix}} {{c.number}}
+                                <a class="addEvent" 
+                                href="?depart={{d.prefix}}&course={{c.number}}">
+                                {{d.prefix}} {{c.number}}
                                 </a>
                             </td>
                         </tr>
